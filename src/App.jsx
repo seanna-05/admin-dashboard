@@ -40,7 +40,7 @@ function App() {
             width: "100%",
             borderRadius: "8px",
             border: "1px solid #cc",
-            marginBottom: "20px",
+            marginBottom: "10px",
           }}
         />
 
@@ -89,7 +89,17 @@ function App() {
 
           <span style={{ margin: "0 10px" }}>Page {page}</span>
 
-          <button onClick={() => setPage((p) => p + 1)}>Next</button>
+          <button onClick={() => setPage((p) => p + 1)}
+            style={{
+              padding: "8px 14px",
+              borderRadius: "6px",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              cursor: "pointer",
+            }}>
+              Next
+              </button>
         </div>
       </div>
 
