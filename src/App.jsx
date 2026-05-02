@@ -54,48 +54,47 @@ const filteredUsers = data.users.filter((user) =>
         />
 
         <div className="grid">
-          {data.users
-            .filter((user) =>
-              `${user.firstName} ${user.lastName}`
-                .toLowerCase()
-                .includes(debouncedSearch.toLowerCase())
-            )
-            .map((user) => (
-              <div
-                key={user.id}
-                className="card"
-                onClick={() => setSelectedUser(user)}
-              >
-                <h3>
-                  {user.firstName} {user.lastName}
-                </h3>
-                <p>{user.email}</p>
-              </div>
-            ))}
-        </div>
-
-        <div className="pagination">
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            className="btn"
-          >
-            Previous
-          </button>
-
-          <span>Page {page}</span>
-
-{page < totalPages && (
-  <button
-    className="btn"
-    onClick={() =>
-      setPage((prev) => Math.min(prev + 1, totalPages))
-    }
-  >
-    Next
-  </button>
-)}
-        </div>
+  {filteredUsers.length === 0 ? (
+    <p className="center">No users found</p>
+  ) : (
+    filteredUsers.map((user) => (
+      <div
+        key={user.id}
+        className="card"
+        onClick={() => setSelectedUser(user)}
+      >
+        <h3>
+          {user.firstName} {user.lastName}
+        </h3>
+        <p>{user.email}</p>
       </div>
+    ))
+  )}
+</div>
+
+      {filteredUsers.length > 0 && (
+  <div className="pagination">
+    <button
+      onClick={() => setPage((p) => Math.max(p - 1, 1))}
+      className="btn"
+    >
+      Previous
+    </button>
+
+    <span>Page {page}</span>
+
+    {page < totalPages && (
+      <button
+        className="btn"
+        onClick={() =>
+          setPage((prev) => Math.min(prev + 1, totalPages))
+        }
+      >
+        Next
+      </button>
+    )}
+  </div>
+)}
 
       {/* MODAL */}
       {selectedUser && (
