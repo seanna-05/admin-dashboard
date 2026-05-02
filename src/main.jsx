@@ -1,16 +1,18 @@
-import { createRoot } from "react-dom/client";
-import { lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import App from "./App";
 
-const App = lazy(() => import("./App.jsx"));
-<Suspense fallback={<h2>Loading App...</h2>}>
-  <App />
-</Suspense>
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>💥 Something went wrong</h2>
+      <p>{error.message}</p>
+      <button onClick={resetErrorBoundary}>Try Again</button>
+    </div>
+  );
+}
 
-const queryClient = new QueryClient();
-
-createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
+root.render(
+  <ErrorBoundary FallbackComponent={ErrorFallback}>
     <App />
-  </QueryClientProvider>
+  </ErrorBoundary>
 );

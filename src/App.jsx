@@ -23,7 +23,17 @@ function App() {
   }, [search]);
 
   if (isLoading) return <h2 className="center">Loading...</h2>;
-  if (isError) return <h2 className="center">Error: {error.message}</h2>;
+  if (isError)
+  return (
+    <div className="center">
+      <h2>Failed to load users!</h2>
+      <p>{error.message}</p>
+
+      <button className="btn" onClick={() => refetch()}>
+        Retry
+      </button>
+    </div>
+  );
 const totalPages = Math.ceil(data.total / 10);
   return (
     <>
