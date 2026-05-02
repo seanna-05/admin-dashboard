@@ -98,3 +98,6 @@ body {
   text-align: center;
   margin-top: 50px;
 }
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
