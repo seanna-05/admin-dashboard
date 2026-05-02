@@ -69,15 +69,16 @@ const totalPages = Math.ceil(data.total / 10);
 
           <span>Page {page}</span>
 
-<button
-  className="btn"
-  onClick={() =>
-    setPage((prev) => Math.min(prev + 1, totalPages))
-  }
-  disabled={page >= totalPages}
->
-  Next
-</button>
+{page < totalPages && (
+  <button
+    className="btn"
+    onClick={() =>
+      setPage((prev) => Math.min(prev + 1, totalPages))
+    }
+  >
+    Next
+  </button>
+)}
         </div>
       </div>
 
