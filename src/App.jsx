@@ -9,11 +9,11 @@ function App() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["users", page],
-    queryFn: fetchUsers,
-    retry: 1,
-  });
+  const { data, isLoading, isError, error, refetch } = useQuery({
+  queryKey: ["users", page],
+  queryFn: fetchUsers,
+  retry: 1,
+});
 
   useEffect(() => {
     const timer = setTimeout(() => {
