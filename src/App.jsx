@@ -16,17 +16,24 @@ function App() {
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [search]);
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+    setPage(1); 
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [search]);
 
   if (isLoading) return <h2 className="center">Loading...</h2>;
   if (isError) return <h2 className="center">Error: {error.message}</h2>;
 const totalPages = Math.ceil(data.total / 10);
+const filteredUsers = data.users.filter((user) =>
+  `${user.firstName} ${user.lastName}`
+    .toLowerCase()
+    .includes(debouncedSearch.toLowerCase())
+);
   return (
-    <>
+    
       <div className="container">
         <h1 className="title">Admin Dashboard</h1>
 
@@ -38,52 +45,52 @@ const totalPages = Math.ceil(data.total / 10);
           className="search"
         />
 
-        <div className="grid">
-          {data.users
-            .filter((user) =>
-              `${user.firstName} ${user.lastName}`
-                .toLowerCase()
-                .includes(debouncedSearch.toLowerCase())
-            )
-            .map((user) => (
-              <div
-                key={user.id}
-                className="card"
-                onClick={() => setSelectedUser(user)}
-              >
-                <h3>
-                  {user.firstName} {user.lastName}
-                </h3>
-                <p>{user.email}</p>
-              </div>
-            ))}
-        </div>
-
-        <div className="pagination">
-         <button
-  className="btn"
-  onClick={() => setPage((p) => Math.max(p - 1, 1))}
-  disabled={page === 1}
->
-  Previous
-</button>
-
-          <span>Page {page}</span>
-
-   {page < totalPages && (
-  <button
-    className="btn"
-    onClick={() =>
-      setPage((prev) => Math.min(prev + 1, totalPages))
-    }
-  >
-    Next
-  </button>
-)}
-        </div>
+       <div className="grid">
+  {filteredUsers.length === 0 ? (
+    <p className="center">No users found</p>
+  ) : (
+    filteredUsers.map((user) => (
+      <div
+        key={user.id}
+        className="card"
+        onClick={() => setSelectedUser(user)}
+      >
+        <p>
+          <strong>
+            {user.firstName} {user.lastName}
+          </strong>
+        </p>
+        <p>{user.email}</p>
       </div>
+    ))
+  )}
+</div>
 
-      {/* MODAL */}
+       {!debouncedSearch && (
+  <div className="pagination">
+    {page > 1 && (
+      <button
+        className="btn"
+        onClick={() => setPage((p) => Math.max(p - 1, 1))}
+      >
+        Previous
+      </button>
+    )}
+
+    <span>Page {page}</span>
+
+    {page < totalPages && (
+      <button
+        className="btn"
+        onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+      >
+        Next
+      </button>
+    )}
+  </div>
+)}
+
+      
       {selectedUser && (
         <div className="modal-overlay">
           <div className="modal">
@@ -108,7 +115,7 @@ const totalPages = Math.ceil(data.total / 10);
           </div>
         </div>
       )}
-    </>
+    
   );
 }
 
