@@ -27,8 +27,8 @@ function App() {
   if (!data) return <h2>Loading...</h2>; 
   return (
     <>
-      <div style={{ padding: "20px" }}>
-        <h1>Admin Dashboard</h1>
+      <div style={{ padding: "20px", maxWidth: "800px", margin:"auto" }}>
+        <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "20px"  }}>Admin Dashboard</h1>
 
         <input
           type="text"
@@ -36,9 +36,10 @@ function App() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
-            padding: "8px",
+            padding: "10px",
             width: "100%",
-            marginTop: "10px",
+            borderRadius: "8px",
+            border: "1px solid #cc"
             marginBottom: "20px",
           }}
         />
@@ -55,10 +56,12 @@ function App() {
                 key={user.id}
                 onClick={() => setSelectedUser(user)}
                 style={{
-                  border: "1px solid #ccc",
-                  padding: "10px",
-                  borderRadius: "8px",
+                  border: "1px solid #e0e0e0",
+                  padding: "15px",
+                  borderRadius: "10px",
                   cursor: "pointer",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                  transition: "0.2s"
                 }}
               >
                 <p>
@@ -72,7 +75,14 @@ function App() {
         </div>
 
         <div style={{ marginTop: "20px" }}>
-          <button onClick={() => setPage((p) => Math.max(p - 1, 1))}>
+          <button style={{
+            padding: "8px 12px",
+            borderRadius: "6px",
+            border: "none",backgroudColor: "#007bff",
+            color: "white",
+            cursor: "pointer",
+          }} 
+          onClick={() => setPage((p) => Math.max(p - 1, 1))}>
             Previous
           </button>
 
