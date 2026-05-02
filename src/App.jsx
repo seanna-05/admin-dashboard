@@ -8,7 +8,6 @@ function App() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users", page, debouncedSearch],
     queryFn: () => fetchUsers(page, debouncedSearch),
@@ -42,14 +41,12 @@ function App() {
         className="search"
       />
 
-      {/* 🔍 Show search info */}
       {debouncedSearch && (
         <p className="center">
           Showing results for "<strong>{debouncedSearch}</strong>"
         </p>
       )}
 
-      {/* ✅ GRID */}
       <div className="grid">
         {data.users.length === 0 ? (
           <p className="center">No users found</p>
@@ -71,7 +68,6 @@ function App() {
         )}
       </div>
 
-      {/* ✅ PAGINATION (hidden during search) */}
       {!debouncedSearch && (
         <div className="pagination">
           {page > 1 && (
@@ -96,7 +92,6 @@ function App() {
         </div>
       )}
 
-      {/* ✅ MODAL */}
       {selectedUser && (
         <div className="modal-overlay">
           <div className="modal">

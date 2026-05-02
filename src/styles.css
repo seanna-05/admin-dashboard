@@ -15,7 +15,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Search */
 .search {
   width: 100%;
   padding: 12px;
@@ -25,13 +24,11 @@ body {
   font-size: 14px;
 }
 
-/* Grid */
 .grid {
   display: grid;
   gap: 15px;
 }
 
-/* Card */
 .card {
   background: white;
   padding: 15px;
@@ -46,7 +43,6 @@ body {
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* Buttons */
 .btn {
   padding: 8px 14px;
   border: none;
@@ -65,7 +61,7 @@ body {
   width: 100%;
 }
 
-/* Pagination */
+
 .pagination {
   margin-top: 20px;
   display: flex;
@@ -73,7 +69,6 @@ body {
   gap: 10px;
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -93,7 +88,6 @@ body {
   width: 300px;
 }
 
-/* Center text */
 .center {
   text-align: center;
   margin-top: 50px;
