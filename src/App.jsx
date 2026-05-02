@@ -35,6 +35,11 @@ function App() {
     </div>
   );
 const totalPages = Math.ceil(data.total / 10);
+const filteredUsers = data.users.filter((user) =>
+  `${user.firstName} ${user.lastName}`
+    .toLowerCase()
+    .includes(debouncedSearch.toLowerCase())
+);
   return (
     <>
       <div className="container">
