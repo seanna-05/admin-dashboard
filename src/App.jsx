@@ -10,36 +10,42 @@ function App() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const { data, isLoading, isError, error, refetch } = useQuery({
-  queryKey: ["users", page],
-  queryFn: fetchUsers,
-  retry: 1,
-});
+    queryKey: ["users", page],
+    queryFn: fetchUsers,
+    retry: 1,
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
     }, 500);
+
     return () => clearTimeout(timer);
   }, [search]);
 
   if (isLoading) return <h2 className="center">Loading...</h2>;
-  if (isError)
-  return (
-    <div className="center">
-      <h2>Failed to load users!</h2>
-      <p>{error.message}</p>
 
-      <button className="btn" onClick={() => refetch()}>
-        Retry
-      </button>
-    </div>
+  if (isError)
+    return (
+      <div className="center">
+        <h2>Failed to load users!</h2>
+        <p>{error.message}</p>
+        <button className="btn" onClick={() => refetch()}>
+          Retry
+        </button>
+      </div>
+    );
+
+  // ✅ Filter users FIRST
+  const filteredUsers = data.users.filter((user) =>
+    `${user.firstName} ${user.lastName}`
+      .toLowerCase()
+      .includes(debouncedSearch.toLowerCase())
   );
-const totalPages = Math.ceil(data.total / 10);
-const filteredUsers = data.users.filter((user) =>
-  `${user.firstName} ${user.lastName}`
-    .toLowerCase()
-    .includes(debouncedSearch.toLowerCase())
-);
+
+  // ✅ Then calculate total pages
+  const totalPages = Math.ceil(filteredUsers.length / 10) || 1;
+
   return (
     <>
       <div className="container">
@@ -53,48 +59,51 @@ const filteredUsers = data.users.filter((user) =>
           className="search"
         />
 
+        {/* USERS */}
         <div className="grid">
-  {filteredUsers.length === 0 ? (
-    <p className="center">No users found</p>
-  ) : (
-    filteredUsers.map((user) => (
-      <div
-        key={user.id}
-        className="card"
-        onClick={() => setSelectedUser(user)}
-      >
-        <h3>
-          {user.firstName} {user.lastName}
-        </h3>
-        <p>{user.email}</p>
+          {filteredUsers.length === 0 ? (
+            <p className="center">No users found</p>
+          ) : (
+            filteredUsers.map((user) => (
+              <div
+                key={user.id}
+                className="card"
+                onClick={() => setSelectedUser(user)}
+              >
+                <h3>
+                  {user.firstName} {user.lastName}
+                </h3>
+                <p>{user.email}</p>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* PAGINATION */}
+        {filteredUsers.length > 0 && (
+          <div className="pagination">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              className="btn"
+            >
+              Previous
+            </button>
+
+            <span>Page {page}</span>
+
+            {page < totalPages && (
+              <button
+                className="btn"
+                onClick={() =>
+                  setPage((prev) => Math.min(prev + 1, totalPages))
+                }
+              >
+                Next
+              </button>
+            )}
+          </div>
+        )}
       </div>
-    ))
-  )}
-</div>
-
-      {filteredUsers.length > 0 && (
-  <div className="pagination">
-    <button
-      onClick={() => setPage((p) => Math.max(p - 1, 1))}
-      className="btn"
-    >
-      Previous
-    </button>
-
-    <span>Page {page}</span>
-
-    {page < totalPages && (
-      <button
-        className="btn"
-        onClick={() =>
-          setPage((prev) => Math.min(prev + 1, totalPages))
-        }
-      >
-        Next
-      </button>
-    )}
-  </div>
-)}
 
       {/* MODAL */}
       {selectedUser && (
@@ -115,7 +124,10 @@ const filteredUsers = data.users.filter((user) =>
               <strong>Phone:</strong> {selectedUser.phone || "N/A"}
             </p>
 
-            <button className="btn close" onClick={() => setSelectedUser(null)}>
+            <button
+              className="btn close"
+              onClick={() => setSelectedUser(null)}
+            >
               Close
             </button>
           </div>
