@@ -9,9 +9,10 @@ function App() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["users", page],
-    queryFn: fetchUsers,
-  });
+  queryKey: ["users", page],
+  queryFn: fetchUsers,
+  retry: 1,
+});
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,7 +24,7 @@ function App() {
 
   if (isLoading) return <h2>Loading...</h2>;
   if (isError) return <h2>Error: {error.message}</h2>;
-
+  if (!data) return <h2>Loading...</h2>; 
   return (
     <>
       <div style={{ padding: "20px" }}>
