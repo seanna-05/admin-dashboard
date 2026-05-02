@@ -24,7 +24,7 @@ function App() {
 
   if (isLoading) return <h2 className="center">Loading...</h2>;
   if (isError) return <h2 className="center">Error: {error.message}</h2>;
-
+const totalPages = Math.ceil(data.total / 10);
   return (
     <>
       <div className="container">
@@ -69,9 +69,15 @@ function App() {
 
           <span>Page {page}</span>
 
-          <button onClick={() => setPage((p) => p + 1)} className="btn">
-            Next
-          </button>
+<button
+  className="btn"
+  onClick={() =>
+    setPage((prev) => Math.min(prev + 1, totalPages))
+  }
+  disabled={page >= totalPages}
+>
+  Next
+</button>
         </div>
       </div>
 
