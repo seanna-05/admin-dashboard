@@ -39,7 +39,7 @@ function App() {
             padding: "10px",
             width: "100%",
             borderRadius: "8px",
-            border: "1px solid #cc"
+            border: "1px solid #cc",
             marginBottom: "20px",
           }}
         />
@@ -78,7 +78,8 @@ function App() {
           <button style={{
             padding: "8px 12px",
             borderRadius: "6px",
-            border: "none",backgroudColor: "#007bff",
+            border: "none",
+            backgroundColor: "#007bff",
             color: "white",
             cursor: "pointer",
           }} 
